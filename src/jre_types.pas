@@ -1,6 +1,7 @@
 unit jre_types;
 
 {$mode objfpc}{$H+}
+{$modeswitch advancedrecords}
 
 interface
 

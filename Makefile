@@ -13,7 +13,8 @@ FPC_FLAGS := \
   -Fu$(VENDOR) \
   -FU$(BUILD_DIR) \
   -O2 \
-  -gl
+  -gl \
+  -k--allow-shlib-undefined
 
 .PHONY: all hello dirs clean vendor-get run-hello
 

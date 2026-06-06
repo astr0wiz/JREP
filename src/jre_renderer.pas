@@ -67,7 +67,7 @@ implementation
 const
   IMG_FLAGS = IMG_INIT_PNG or IMG_INIT_JPG;
 
-function FlipToSDL(F: TFlip): TSDL_RendererFlip;
+function FlipToSDL(F: TFlip): TSDL_RenderFlip;
 begin
   case F of
     fHorizontal: Result := SDL_FLIP_HORIZONTAL;

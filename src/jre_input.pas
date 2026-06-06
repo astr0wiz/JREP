@@ -11,22 +11,25 @@ const
   JRE_MAX_KEYS = 512;
 
 type
-  TMouseButton = (mbLeft = 1, mbMiddle = 2, mbRight = 3);
+  { Ordinals 0-2; SDL button values are 1-3 — conversion handled internally }
+  TMouseButton = (mbLeft, mbMiddle, mbRight);
 
   TJREInput = class
   private
-    FKeyDown: array[0..JRE_MAX_KEYS - 1] of Boolean;
-    FKeyPressed: array[0..JRE_MAX_KEYS - 1] of Boolean;
+    FKeyDown:     array[0..JRE_MAX_KEYS - 1] of Boolean;
+    FKeyPressed:  array[0..JRE_MAX_KEYS - 1] of Boolean;
     FKeyReleased: array[0..JRE_MAX_KEYS - 1] of Boolean;
-    FMouseDown: array[TMouseButton] of Boolean;
-    FMousePressed: array[TMouseButton] of Boolean;
+    FMouseDown:     array[TMouseButton] of Boolean;
+    FMousePressed:  array[TMouseButton] of Boolean;
     FMouseReleased: array[TMouseButton] of Boolean;
-    FMousePos: TVector2;
-    FMouseDelta: TVector2;
+    FMousePos:    TVector2;
+    FMouseDelta:  TVector2;
     FScrollDelta: TVector2;
     FQuitRequested: Boolean;
-    function  KeyIdx(Key: TSDL_Scancode): Integer; inline;
-    function  ValidButton(B: Integer): Boolean; inline;
+    function KeyIdx(Key: TSDL_Scancode): Integer; inline;
+    { SDL mouse buttons are 1-based; returns False for anything outside 1..3 }
+    function SDLButtonValid(B: Integer): Boolean; inline;
+    function SDLButtonToEnum(B: Integer): TMouseButton; inline;
   public
     procedure BeginFrame;
     procedure ProcessEvent(const Event: TSDL_Event);
@@ -38,8 +41,8 @@ type
     function IsMousePressed(Button: TMouseButton): Boolean;
     function IsMouseReleased(Button: TMouseButton): Boolean;
 
-    property MousePos: TVector2 read FMousePos;
-    property MouseDelta: TVector2 read FMouseDelta;
+    property MousePos:    TVector2 read FMousePos;
+    property MouseDelta:  TVector2 read FMouseDelta;
     property ScrollDelta: TVector2 read FScrollDelta;
     property QuitRequested: Boolean read FQuitRequested;
   end;
@@ -51,9 +54,14 @@ begin
   Result := Integer(Key);
 end;
 
-function TJREInput.ValidButton(B: Integer): Boolean;
+function TJREInput.SDLButtonValid(B: Integer): Boolean;
 begin
-  Result := (B >= Ord(Low(TMouseButton))) and (B <= Ord(High(TMouseButton)));
+  Result := (B >= 1) and (B <= 3);
+end;
+
+function TJREInput.SDLButtonToEnum(B: Integer): TMouseButton;
+begin
+  Result := TMouseButton(B - 1);  { SDL 1,2,3 -> mbLeft,mbMiddle,mbRight }
 end;
 
 procedure TJREInput.BeginFrame;
@@ -102,17 +110,17 @@ begin
 
     SDL_MOUSEMOTION:
     begin
-      FMousePos.X    := Event.motion.x;
-      FMousePos.Y    := Event.motion.y;
-      FMouseDelta.X  := FMouseDelta.X + Event.motion.xrel;
-      FMouseDelta.Y  := FMouseDelta.Y + Event.motion.yrel;
+      FMousePos.X   := Event.motion.x;
+      FMousePos.Y   := Event.motion.y;
+      FMouseDelta.X := FMouseDelta.X + Event.motion.xrel;
+      FMouseDelta.Y := FMouseDelta.Y + Event.motion.yrel;
     end;
 
     SDL_MOUSEBUTTONDOWN:
     begin
-      if ValidButton(Event.button.button) then
+      if SDLButtonValid(Event.button.button) then
       begin
-        B := TMouseButton(Event.button.button);
+        B := SDLButtonToEnum(Event.button.button);
         if not FMouseDown[B] then FMousePressed[B] := True;
         FMouseDown[B] := True;
       end;
@@ -120,9 +128,9 @@ begin
 
     SDL_MOUSEBUTTONUP:
     begin
-      if ValidButton(Event.button.button) then
+      if SDLButtonValid(Event.button.button) then
       begin
-        B := TMouseButton(Event.button.button);
+        B := SDLButtonToEnum(Event.button.button);
         FMouseDown[B]     := False;
         FMouseReleased[B] := True;
       end;
@@ -137,21 +145,24 @@ begin
 end;
 
 function TJREInput.IsKeyDown(Key: TSDL_Scancode): Boolean;
-var Idx: Integer;
+var
+  Idx: Integer;
 begin
   Idx := KeyIdx(Key);
   Result := (Idx >= 0) and (Idx < JRE_MAX_KEYS) and FKeyDown[Idx];
 end;
 
 function TJREInput.IsKeyPressed(Key: TSDL_Scancode): Boolean;
-var Idx: Integer;
+var
+  Idx: Integer;
 begin
   Idx := KeyIdx(Key);
   Result := (Idx >= 0) and (Idx < JRE_MAX_KEYS) and FKeyPressed[Idx];
 end;
 
 function TJREInput.IsKeyReleased(Key: TSDL_Scancode): Boolean;
-var Idx: Integer;
+var
+  Idx: Integer;
 begin
   Idx := KeyIdx(Key);
   Result := (Idx >= 0) and (Idx < JRE_MAX_KEYS) and FKeyReleased[Idx];
