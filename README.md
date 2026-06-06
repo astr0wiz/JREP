@@ -6,8 +6,8 @@ A 2D game engine written in FreePascal, built on SDL2.
 
 | Tool | Version |
 |------|---------|
-| Free Pascal Compiler | >= 3.2.0 |
-| SDL2 | >= 2.0.10 |
+| Free Pascal Compiler | ≥ 3.2.0 |
+| SDL2 | ≥ 2.0.10 |
 | SDL2_image | any |
 | SDL2_mixer | any |
 | SDL2_ttf | any |
@@ -31,18 +31,17 @@ make run-hello
 
 ```
 src/
-  jre.pas          Main engine unit -- TJREEngine, TJREConfig
+  jre.pas          Main engine unit — TJREEngine, TJREConfig
   jre_types.pas    TVector2, TRectF, TColor and constants
   jre_window.pas   SDL2 window wrapper
-  jre_renderer.pas 2D renderer -- textures, fonts, primitives
+  jre_renderer.pas 2D renderer — textures, fonts, primitives
   jre_input.pas    Keyboard, mouse and scroll input
   jre_audio.pas    Sound effects and music (SDL_mixer)
   jre_assets.pas   Cached asset loader
   jre_entity.pas   Base TEntity class
-  jre_scene.pas    Scene -- owns and updates entity list
+  jre_scene.pas    Scene — owns and updates entity list
 examples/
   hello/hello.pas  Bouncing coloured boxes demo
-assets/            Drop game assets here (images, fonts, sounds)
 ```
 
 ## Usage sketch
@@ -50,7 +49,7 @@ assets/            Drop game assets here (images, fonts, sounds)
 ```pascal
 program mygame;
 {$mode objfpc}{$H+}
-uses jre, jre_types, jre_entity, jre_renderer;
+uses jre, jre_types, jre_entity, jre_renderer, SDL2;
 
 type
   TPlayer = class(TEntity)
@@ -60,7 +59,7 @@ type
 
 procedure TPlayer.Update(DT: Single);
 begin
-  { move, collide, etc. }
+  // move, collide, etc.
 end;
 
 procedure TPlayer.Render(R: TJRERenderer);

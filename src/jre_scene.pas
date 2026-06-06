@@ -13,9 +13,9 @@ type
 
   TScene = class
   private
-    FEntities:      TEntityList;
-    FPendingAdd:    TEntityList;
-    FPendingRemove: TEntityList;
+    FEntities:     TEntityList;
+    FPendingAdd:   TEntityList;
+    FPendingRemove:TEntityList;
     procedure FlushPending;
   public
     constructor Create;

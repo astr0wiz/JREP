@@ -7,12 +7,13 @@ uses
   jre,
   jre_types,
   jre_entity,
-  jre_renderer;
+  jre_renderer,
+  jre_input;
 
 type
   TBox = class(TEntity)
   private
-    FColor:    TColor;
+    FColor: TColor;
     FVelocity: TVector2;
     FBoundsW, FBoundsH: Single;
   public
@@ -59,10 +60,10 @@ var
 begin
   Engine := TJREEngine.Create(JREConfig('JRE - Hello World', 800, 600));
   try
-    Engine.Scene.Add(TBox.Create(100, 100, 60, 60, COLOR_RED,     150,  110, 800, 600));
-    Engine.Scene.Add(TBox.Create(300, 200, 45, 45, COLOR_GREEN,   -90,  130, 800, 600));
-    Engine.Scene.Add(TBox.Create(500, 150, 70, 70, COLOR_BLUE,    120,  -80, 800, 600));
-    Engine.Scene.Add(TBox.Create(200, 350, 35, 35, COLOR_YELLOW,  -70,   95, 800, 600));
+    Engine.Scene.Add(TBox.Create(100, 100, 60, 60, COLOR_RED,    150, 110, 800, 600));
+    Engine.Scene.Add(TBox.Create(300, 200, 45, 45, COLOR_GREEN,  -90, 130, 800, 600));
+    Engine.Scene.Add(TBox.Create(500, 150, 70, 70, COLOR_BLUE,   120, -80, 800, 600));
+    Engine.Scene.Add(TBox.Create(200, 350, 35, 35, COLOR_YELLOW, -70,  95, 800, 600));
     Engine.Run;
   finally
     Engine.Free;
