@@ -4,8 +4,6 @@ unit jre_types;
 
 interface
 
-uses Math;
-
 type
   TVector2 = record
     X, Y: Single;
@@ -45,6 +43,8 @@ const
   COLOR_CLEAR: TColor = (R: 0;   G: 0;   B: 0;   A: 0);
 
 implementation
+
+uses Math;
 
 class function TVector2.Create(AX, AY: Single): TVector2;
 begin

@@ -50,6 +50,13 @@ type
 
 implementation
 
+function Clamp(V, Lo, Hi: Single): Single;
+begin
+  if V < Lo then Result := Lo
+  else if V > Hi then Result := Hi
+  else Result := V;
+end;
+
 constructor TJREAudio.Create(Frequency, Channels, ChunkSize: Integer);
 begin
   if Mix_OpenAudio(Frequency, MIX_DEFAULT_FORMAT, Channels, ChunkSize) < 0 then
@@ -158,13 +165,6 @@ procedure TJREAudio.SetSoundVolume(Value: Single);
 begin
   FSoundVolume := Clamp(Value, 0, 1);
   ApplyVolumes;
-end;
-
-function Clamp(V, Lo, Hi: Single): Single;
-begin
-  if V < Lo then Result := Lo
-  else if V > Hi then Result := Hi
-  else Result := V;
 end;
 
 end.

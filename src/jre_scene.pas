@@ -40,6 +40,7 @@ end;
 
 destructor TScene.Destroy;
 begin
+  FlushPending;
   FPendingAdd.Free;
   FPendingRemove.Free;
   FEntities.Free;
@@ -90,8 +91,7 @@ end;
 
 procedure TScene.Clear;
 begin
-  FPendingAdd.Clear;
-  FPendingRemove.Clear;
+  FlushPending;
   FEntities.Clear;
 end;
 

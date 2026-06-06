@@ -25,7 +25,6 @@ type
     FMusic:    TMusicMap;
     FBasePath: string;
     function Resolve(const Path: string): string;
-    function FontKey(const Path: string; Size: Integer): string;
   public
     constructor Create(ARenderer: TJRERenderer; AAudio: TJREAudio;
       const ABasePath: string = '');
@@ -73,10 +72,6 @@ begin
     Result := Path;
 end;
 
-function TJREAssets.FontKey(const Path: string; Size: Integer): string;
-begin
-  Result := Path + '|' + IntToStr(Size);
-end;
 
 function TJREAssets.GetTexture(const Name, Path: string): TTexture;
 var

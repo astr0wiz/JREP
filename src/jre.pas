@@ -116,8 +116,7 @@ procedure TJREEngine.Run;
 var
   FrameStart, FrameEnd, Elapsed: UInt32;
 begin
-  FRunning   := True;
-  FrameStart := SDL_GetTicks;
+  FRunning := True;
 
   while FRunning do
   begin
