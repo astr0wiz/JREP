@@ -8,14 +8,14 @@ BUILD_DIR := build
 BIN_DIR   := bin
 VENDOR    := vendor/sdl2-for-pascal/units
 
-FPC_FLAGS := \\
-  -Fu$(SRC_DIR) \\
-  -Fu$(VENDOR) \\
-  -FU$(BUILD_DIR) \\
-  -O2 \\
+FPC_FLAGS := \
+  -Fu$(SRC_DIR) \
+  -Fu$(VENDOR) \
+  -FU$(BUILD_DIR) \
+  -O2 \
   -gl
 
-.PHONY: all hello dirs clean vendor-get
+.PHONY: all hello dirs clean vendor-get run-hello
 
 all: dirs hello
 
@@ -27,12 +27,12 @@ hello: dirs
 
 vendor-get:
 	@mkdir -p vendor
-	@if [ ! -d vendor/sdl2-for-pascal ]; then \\
-		git clone --depth 1 \\
-		  https://github.com/PascalGameDevelopment/SDL2-for-Pascal.git \\
-		  vendor/sdl2-for-pascal; \\
-	else \\
-		echo "SDL2-for-Pascal already present"; \\
+	@if [ ! -d vendor/sdl2-for-pascal ]; then \
+		git clone --depth 1 \
+		  https://github.com/PascalGameDevelopment/SDL2-for-Pascal.git \
+		  vendor/sdl2-for-pascal; \
+	else \
+		echo "SDL2-for-Pascal already present"; \
 	fi
 
 run-hello: hello
